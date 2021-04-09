@@ -38,8 +38,7 @@ def tweets_list_view(request, *args, **kwargs):
     REST API
     '''
     ts = Tweet.objects.all()
-    tweets_list = [{"id": x.id, "content": x.content, "likes": random.randint(0, 100)}
-                   for x in ts]
+    tweets_list = [x.serialize() for x in ts]
     data = {
         "isUser": False,
         "response": tweets_list
@@ -57,8 +56,8 @@ def form_view(request, *args, **kwargs):
         obj.save()
         # id request is # ajax (Javascript + XML), return JsonResponse and won't go to redirect
         if request.is_ajax():
-
-            return JsonResponse({}, status=201)  # 201 created items
+            # 201 created items
+            return JsonResponse(obj.serialize(), status=201)
         # redirect users to url after they post sth
         if next_url != None and is_safe_url(next_url, settings.ALLOWED_HOSTS):
             return redirect(next_url)
