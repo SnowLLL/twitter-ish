@@ -19,9 +19,9 @@ def detail_view(request, tweet_id, *args, **kwargs):
     data = {
         'id': tweet_id,
     }
-    obj = Tweet.objects.get(id=tweet_id)
     status = 200
     try:
+        obj = Tweet.objects.get(id=tweet_id)
         data['content'] = obj.content
     except:
         data['message'] = "Not Found"
