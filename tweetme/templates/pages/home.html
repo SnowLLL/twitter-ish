@@ -5,8 +5,8 @@ Twitter-ish App
 {% endblock title %}
 
 {% block content %}
-<h1>hello world again </h1>
-<div id="tweets" class="container">Loading</div>
+<h2 class="text-center my-2">Welcome to Twitter-ish </h2>
+<div id="tweets">Loading</div>
 
 <script>
 
@@ -15,8 +15,8 @@ Twitter-ish App
     }
 
     function formatTweet(tweet) {
-        return "<div id='tweet-" + tweet.id + "'>" + tweet.content +
-            "<br><button class='btn btn-primary' onClick = handleClikeLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + "Like</button></div>"
+        return "<div class='border mx-auto p-2 col-12 col-md-9'id='tweet-" + tweet.id + "'><p>" + tweet.content +
+            "</p><button class='btn btn-primary btn-group' onClick = handleClikeLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button></div>"
     }
 
     const tweetsId = document.getElementById("tweets")
