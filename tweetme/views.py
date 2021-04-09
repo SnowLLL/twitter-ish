@@ -8,7 +8,8 @@ import random
 
 def home_view(request, *args, **kwargs):
     # print(args,kwargs) to see what they are
-    return HttpResponse("<h1>Tweet me homepage</h1>")
+    # return HttpResponse("<h1>Tweet me homepage</h1>")
+    return render(request, 'pages/home.html', context={}, status=200)
 
 
 def detail_view(request, tweet_id, *args, **kwargs):
@@ -23,9 +24,8 @@ def detail_view(request, tweet_id, *args, **kwargs):
     try:
         data['content'] = obj.content
     except:
-        raise Http404
-        # data['message'] = "Not Found"
-        # status = 404
+        data['message'] = "Not Found"
+        status = 404
     # add f to use {}
     return JsonResponse(data, status=status)
 

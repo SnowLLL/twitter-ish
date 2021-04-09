@@ -56,6 +56,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
+        # if templates in app folder, then do not need to change dirs
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
