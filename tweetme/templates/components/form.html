@@ -1,7 +1,5 @@
 <form method="POST"> {% csrf_token %}
     <!-- wrap text as para -->
     {{ form.as_p }}
-    <!-- <input type="hidden" action="/" name="next">
-    <textarea placeholder="Your tweet here"></textarea> -->
     <button class="btn btn-secondary" type="submit">Tweet</button>
 </form>

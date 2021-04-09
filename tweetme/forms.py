@@ -11,6 +11,7 @@ class TweetForm(forms.ModelForm):
         model = Tweet
         # NOT single field
         fields = ["content"]
+        # data will automatically to DATABASE
 
     # space is important: def is the same level as class
     def clean_content(self):

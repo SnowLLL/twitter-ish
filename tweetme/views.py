@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, Http404, JsonResponse
 from .models import Tweet
 from .forms import TweetForm
@@ -47,10 +47,16 @@ def tweets_list_view(request, *args, **kwargs):
 
 def form_view(request, *args, **kwargs):
     form = TweetForm(request.POST or None)
+    # redirect users to url after they post sth
+    next_url = request.POST.get("next") or None
+    print(next_url)
     if form.is_valid():
         # create a form instance: If you call save() with commit=False, then it will return an object that hasn't yet been saved to the database.
         obj = form.save(commit=False)
         obj.save()
+        # redirect users to url after they post sth
+        if next_url != None:
+            return redirect(next_url)
         # initial form after save data
         form = TweetForm()
     return render(request, 'components/form.html', context={'form': form})

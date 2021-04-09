@@ -6,8 +6,21 @@ Twitter-ish App
 
 {% block content %}
 <h2 class="text-center my-4">Welcome to Twitter-ish </h2>
-<div id="tweets">Loading</div>
 
+<div class="row">
+    <div class='col-md-4 col-10 mx-auto'>
+        <!-- though POST, data will be sent to view -->
+        <form class="form" action="/create-tweets/" method="POST">
+            {% csrf_token %}
+            <!-- NOT 'action'; Use 'value' -->
+            <input type="hidden" value="/" name="next">
+            <textarea class="form-control" name="content" placeholder="Your tweet here"></textarea>
+            <button class="btn btn-primary my-2" type="submit">Tweet</button>
+        </form>
+    </div>
+</div>
+
+<div id="tweets">Loading</div>
 <script>
 
     function handleClikeLike(tweet_id, currentCount) {
