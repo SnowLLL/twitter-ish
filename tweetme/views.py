@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, JsonResponse
 from .models import Tweet
+from .forms import TweetForm
 import random
 
 # Create your views here.
@@ -42,3 +43,14 @@ def tweets_list_view(request, *args, **kwargs):
         "response": tweets_list
     }
     return JsonResponse(data)
+
+
+def form_view(request, *args, **kwargs):
+    form = TweetForm(request.POST or None)
+    if form.is_valid():
+        # create a form instance: If you call save() with commit=False, then it will return an object that hasn't yet been saved to the database.
+        obj = form.save(commit=False)
+        obj.save()
+        # initial form after save data
+        form = TweetForm()
+    return render(request, 'components/form.html', context={'form': form})
