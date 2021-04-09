@@ -6,6 +6,40 @@ Twitter-ish App
 
 {% block content %}
 <h1>hello world again </h1>
+<div id="tweets" class="container">Loading</div>
 
+<script>
 
+    function handleClikeLike(tweet_id, currentCount) {
+        return currentCount++
+    }
+
+    function formatTweet(tweet) {
+        return "<div id='tweet-" + tweet.id + "'>" + tweet.content +
+            "<br><button class='btn btn-primary' onClick = handleClikeLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + "Like</button></div>"
+    }
+
+    const tweetsId = document.getElementById("tweets")
+    // get data 
+
+    const xml = new XMLHttpRequest()
+    const method = "GET"
+    const url = "/tweets/"
+    const responseType = 'json'
+    xml.responseType = responseType
+    xml.open(method, url)
+    xml.onload = function () {
+        const serverResponse = xml.response
+        var itemsList = serverResponse.response
+        var finalList = ''
+        var currentTweet = ''
+        for (var i = 0; i < itemsList.length; i++) {
+            currentTweet = formatTweet(itemsList[i])
+            finalList += currentTweet
+        }
+        tweetsId.innerHTML = finalList
+    }
+    xml.send()
+
+</script>
 {% endblock content %}
