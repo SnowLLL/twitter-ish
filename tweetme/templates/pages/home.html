@@ -10,7 +10,7 @@ Twitter-ish App
 <div class="row">
     <div class='col-md-4 col-10 mx-auto'>
         <!-- though POST, data will be sent to view -->
-        <form class="form" action="/create-tweets/" method="POST">
+        <form id='create-tweet-form' class="form" action="/create-tweets/" method="POST">
             {% csrf_token %}
             <!-- NOT 'action'; Use 'value' -->
             <input type="hidden" value="/" name="next">
@@ -22,7 +22,31 @@ Twitter-ish App
 
 <div id="tweets">Loading</div>
 <script>
+    const tweetsId = document.getElementById("tweets")
+    const tweetFormId = document.getElementById("create-tweet-form")
 
+    //  form section 
+    tweetFormId.addEventListener("submit", handleTweetFormSubmit)
+    function handleTweetFormSubmit() {
+        // prevent automaticall senting to DATABASE
+        event.preventDefault()
+        const myFormData = new FormData(event.target)
+        const method = event.target.getAttribute("method")
+        const url = event.target.getAttribute("action")
+        xml = new XMLHttpRequest()
+        xml.open(method, url)
+        xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
+        xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+
+        xml.onload = function () {
+            const serverResponse = xml.response
+            // reload all tweets after posting sth new
+            loadTweets(tweetsId)
+        }
+        xml.send(myFormData)
+    }
+
+    // tweet section
     function handleClikeLike(tweet_id, currentCount) {
         return currentCount++
     }
@@ -32,27 +56,28 @@ Twitter-ish App
             "</p><button class='btn btn-primary btn-group' onClick = handleClikeLike(" + tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button></div>"
     }
 
-    const tweetsId = document.getElementById("tweets")
-    // get data 
-
-    const xml = new XMLHttpRequest()
-    const method = "GET"
-    const url = "/tweets/"
-    const responseType = 'json'
-    xml.responseType = responseType
-    xml.open(method, url)
-    xml.onload = function () {
-        const serverResponse = xml.response
-        var itemsList = serverResponse.response
-        var finalList = ''
-        var currentTweet = ''
-        for (var i = 0; i < itemsList.length; i++) {
-            currentTweet = formatTweet(itemsList[i])
-            finalList += currentTweet
+    // get data when everytime open the website
+    function loadTweets(tweetsById) {
+        const xml = new XMLHttpRequest()
+        const method = "GET" //'POST'
+        const url = "/tweets/"
+        const responseType = 'json'
+        xml.responseType = responseType
+        xml.open(method, url)
+        xml.onload = function () {
+            const serverResponse = xml.response
+            var itemsList = serverResponse.response
+            var finalList = ''
+            var currentTweet = ''
+            for (var i = 0; i < itemsList.length; i++) {
+                currentTweet = formatTweet(itemsList[i])
+                finalList += currentTweet
+            }
+            tweetsId.innerHTML = finalList
         }
-        tweetsId.innerHTML = finalList
+        xml.send()
     }
-    xml.send()
-
+    // load all tweets in this tweetsId
+    loadTweets(tweetsId)
 </script>
 {% endblock content %}

@@ -51,15 +51,18 @@ def form_view(request, *args, **kwargs):
     form = TweetForm(request.POST or None)
     # redirect users to url after they post sth
     next_url = request.POST.get("next") or None
-    print(next_url)
     if form.is_valid():
         # create a form instance: If you call save() with commit=False, then it will return an object that hasn't yet been saved to the database.
         obj = form.save(commit=False)
         obj.save()
+        # id request is # ajax (Javascript + XML), return JsonResponse and won't go to redirect
+        if request.is_ajax():
+
+            return JsonResponse({}, status=201)  # 201 created items
         # redirect users to url after they post sth
         if next_url != None and is_safe_url(next_url, settings.ALLOWED_HOSTS):
             return redirect(next_url)
         # initial form after save data
         form = TweetForm()
-    # if not working, it will go to form.html
+    # if url not safe or not working, it will go to form.html
     return render(request, 'components/form.html', context={'form': form})
