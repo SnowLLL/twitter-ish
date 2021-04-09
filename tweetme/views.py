@@ -3,6 +3,8 @@ from django.http import HttpResponse, Http404, JsonResponse
 from .models import Tweet
 from .forms import TweetForm
 import random
+from django.utils.http import is_safe_url
+from django.conf import settings
 
 # Create your views here.
 
@@ -55,8 +57,9 @@ def form_view(request, *args, **kwargs):
         obj = form.save(commit=False)
         obj.save()
         # redirect users to url after they post sth
-        if next_url != None:
+        if next_url != None and is_safe_url(next_url, settings.ALLOWED_HOSTS):
             return redirect(next_url)
         # initial form after save data
         form = TweetForm()
+    # if not working, it will go to form.html
     return render(request, 'components/form.html', context={'form': form})
