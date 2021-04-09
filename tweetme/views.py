@@ -30,8 +30,13 @@ def detail_view(request, tweet_id, *args, **kwargs):
     return JsonResponse(data, status=status)
 
 
-def tweets_list_view(request, tweet_id, *args, **kwargs):
+def tweets_list_view(request, *args, **kwargs):
     '''
     REST API
     '''
-    return HttpResponse(f"<h1>Hello {tweet_id}</h1>")
+    ts = Tweet.objects.all()
+    tweets_list = [{"id": x.id, "content": x.content} for x in ts]
+    data = {
+        "response": tweets_list
+    }
+    return JsonResponse(data)
