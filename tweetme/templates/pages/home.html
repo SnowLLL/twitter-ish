@@ -12,6 +12,8 @@ Twitter-ish App
         <!-- though POST, data will be sent to view -->
         <form id='create-tweet-form' class="form" action="/create-tweets/" method="POST">
             {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-none alert alert-danger" id="errorInfo"></div>
             <!-- NOT 'action'; Use 'value' -->
             <input type="hidden" value="/" name="next">
             <textarea required class="form-control" name="content" placeholder="Your tweet here"></textarea>
@@ -24,6 +26,7 @@ Twitter-ish App
 <script>
     const tweetsId = document.getElementById("tweets")
     const tweetFormId = document.getElementById("create-tweet-form")
+    const formErrorId = document.getElementById("errorInfo")
 
     //  form section 
     tweetFormId.addEventListener("submit", handleTweetFormSubmit)
@@ -41,6 +44,7 @@ Twitter-ish App
         xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
         xml.onload = function () {
             if (xml.status === 201) {
+                handleFormError("", false)
                 const newTweet = xml.response
                 // console.log(JSON.parse(newTweet).likes) //change to be json data first if not set response type as json
                 // new post comes first
@@ -49,7 +53,17 @@ Twitter-ish App
                 // clean content after the post
                 event.target.reset()
             } else if (xml.status = 400) {
-                console.log(xml.response)
+                const contentError = xml.response.content
+                if (contentError) {
+                    errorMessage = contentError[0]
+                    if (errorMessage) {
+                        handleFormError(errorMessage, true)
+                    } else {
+                        alert("An error occured. Please try again later")
+                    }
+                } else {
+                    alert("An error occured. Please try again later")
+                }
             }
 
             // console.log(xml.status, newTweet) //same page as JsonResponse({},status)
@@ -60,6 +74,17 @@ Twitter-ish App
             alert("An error occured. Please try again later")
         }
         xml.send(myFormData)
+    }
+
+    function handleFormError(msg, display) {
+        if (display === true) {
+            // msg
+            formErrorId.setAttribute("class", "d-block alert alert-danger")
+            formErrorId.innerText = msg
+        } else {
+            // formErrorId.getAttribute("display") = none;
+            formErrorId.setAttribute("class", "d-none alert alert-danger")
+        }
     }
 
     // tweet section
