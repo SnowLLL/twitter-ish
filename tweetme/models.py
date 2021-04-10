@@ -10,6 +10,10 @@ class Tweet(models.Model):
     content = models.CharField(blank=True, null=True, max_length=200)
     image = models.FileField(upload_to='image/', blank=True, null=True)
 
+    class Meta:
+        # make the new one comes first
+        ordering = ['-id']
+
     def serialize(self):
         return {
             "id": self.id,

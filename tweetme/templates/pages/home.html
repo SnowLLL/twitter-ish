@@ -14,7 +14,7 @@ Twitter-ish App
             {% csrf_token %}
             <!-- NOT 'action'; Use 'value' -->
             <input type="hidden" value="/" name="next">
-            <textarea class="form-control" name="content" placeholder="Your tweet here"></textarea>
+            <textarea required class="form-control" name="content" placeholder="Your tweet here"></textarea>
             <button class="btn btn-primary my-2" type="submit">Tweet</button>
         </form>
     </div>
@@ -27,7 +27,7 @@ Twitter-ish App
 
     //  form section 
     tweetFormId.addEventListener("submit", handleTweetFormSubmit)
-    function handleTweetFormSubmit() {
+    function handleTweetFormSubmit(event) {
         // prevent automaticall senting to DATABASE
         event.preventDefault()
         const myFormData = new FormData(event.target)
@@ -39,7 +39,6 @@ Twitter-ish App
         xml.open(method, url)
         xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
         xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-
         xml.onload = function () {
             if (xml.status === 201) {
                 const newTweet = xml.response
@@ -47,6 +46,8 @@ Twitter-ish App
                 // new post comes first
                 const oldHtml = tweetsId.innerHTML
                 tweetsId.innerHTML = formatTweet(newTweet) + oldHtml
+                // clean content after the post
+                event.target.reset()
             }
 
             // console.log(xml.status, newTweet) //same page as JsonResponse({},status)
