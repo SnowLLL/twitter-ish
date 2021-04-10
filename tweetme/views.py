@@ -63,5 +63,9 @@ def form_view(request, *args, **kwargs):
             return redirect(next_url)
         # initial form after save data
         form = TweetForm()
+
+    if form.errors:
+        if request.is_ajax():
+            return JsonResponse(form.errors, status=400)
     # if url not safe or not working, it will go to form.html
     return render(request, 'components/form.html', context={'form': form})
