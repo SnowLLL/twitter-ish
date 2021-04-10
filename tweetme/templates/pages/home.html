@@ -48,11 +48,16 @@ Twitter-ish App
                 tweetsId.innerHTML = formatTweet(newTweet) + oldHtml
                 // clean content after the post
                 event.target.reset()
+            } else if (xml.status = 400) {
+                console.log(xml.response)
             }
 
             // console.log(xml.status, newTweet) //same page as JsonResponse({},status)
             // reload all tweets after posting sth new but new tweet is at the end
             // loadTweets(tweetsId)
+        }
+        xml.onerror = function () {
+            alert("An error occured. Please try again later")
         }
         xml.send(myFormData)
     }
@@ -85,6 +90,9 @@ Twitter-ish App
                 finalList += currentTweet
             }
             tweetsId.innerHTML = finalList
+        }
+        xml.onerror = function () {
+            alert("An error occured. Please try again later")
         }
         xml.send()
     }
