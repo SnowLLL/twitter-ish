@@ -34,6 +34,7 @@ def detail_view(request, tweet_id, *args, **kwargs):
 
 
 def tweets_list_view(request, *args, **kwargs):
+    print(request.user)
     '''
     REST API
     '''
@@ -47,12 +48,22 @@ def tweets_list_view(request, *args, **kwargs):
 
 
 def form_view(request, *args, **kwargs):
+    user = request.user
+    if not request.user.is_authenticated:
+        # default AnonymousUser = none
+        user = None
+        if request.is_ajax():
+            return JsonResponse({}, status=401)
+        return redirect(settings.LOGIN_URL)
+
     form = TweetForm(request.POST or None)
     # redirect users to url after they post sth
     next_url = request.POST.get("next") or None
     if form.is_valid():
         # create a form instance: If you call save() with commit=False, then it will return an object that hasn't yet been saved to the database.
         obj = form.save(commit=False)
+        # Tweets is associated with user
+        obj.user = user
         obj.save()
         # id request is # ajax (Javascript + XML), return JsonResponse and won't go to redirect
         if request.is_ajax():

@@ -28,6 +28,7 @@ DEBUG = True
 # important "."
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['127.0.0.1', '.netlify.app']
+LOGIN_URL = '/login'
 
 # Application definition
 
