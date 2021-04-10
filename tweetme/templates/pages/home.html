@@ -34,14 +34,24 @@ Twitter-ish App
         const method = event.target.getAttribute("method")
         const url = event.target.getAttribute("action")
         xml = new XMLHttpRequest()
+        const responseType = 'json'
+        xml.responseType = responseType
         xml.open(method, url)
         xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
         xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
 
         xml.onload = function () {
-            const serverResponse = xml.response
-            // reload all tweets after posting sth new
-            loadTweets(tweetsId)
+            if (xml.status === 201) {
+                const newTweet = xml.response
+                // console.log(JSON.parse(newTweet).likes) //change to be json data first if not set response type as json
+                // new post comes first
+                const oldHtml = tweetsId.innerHTML
+                tweetsId.innerHTML = formatTweet(newTweet) + oldHtml
+            }
+
+            // console.log(xml.status, newTweet) //same page as JsonResponse({},status)
+            // reload all tweets after posting sth new but new tweet is at the end
+            // loadTweets(tweetsId)
         }
         xml.send(myFormData)
     }
