@@ -4,7 +4,14 @@ from .models import Tweet
 from .forms import TweetForm
 import random
 from django.utils.http import is_safe_url
+
+# for use REST FRAMEWORK
 from django.conf import settings
+from .serializers import TweetSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 
 # Create your views here.
 
@@ -15,7 +22,46 @@ def home_view(request, *args, **kwargs):
     return render(request, 'pages/home.html', context={}, status=200)
 
 
+# [use third party app - REST Framework]  serializer replace _view built in pure django
+
+
+@api_view(['GET'])
 def detail_view(request, tweet_id, *args, **kwargs):
+    ts = Tweet.objects.filter(id=tweet_id)
+    print(ts)
+    if not ts.exists():
+        return Response({}, status=404)
+    obj = ts.first()
+    serializer = TweetSerializer(obj)
+    return Response(serializer.data, status=200)
+
+
+@api_view(['GET'])
+def tweets_list_view(request, *args, **kwargs):
+    ts = Tweet.objects.all()
+    serializer = TweetSerializer(ts, many=True)
+    return Response(serializer.data)
+
+# HTTP method the client === POST
+
+
+@api_view(['POST'])
+# default Session
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def form_view(request, *args, **kwargs):
+    # be careful (data=...) or maybe server errors
+    serializer = TweetSerializer(data=request.POST)
+    if serializer.is_valid(raise_exception=True):
+        # ()solve null content errors
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=201)
+    return Response({}, status=400)
+
+
+# ------------- Pure Django Below --------------------------
+
+def detail_view_pure_django(request, tweet_id, *args, **kwargs):
     '''
     REST API
     '''
@@ -33,8 +79,7 @@ def detail_view(request, tweet_id, *args, **kwargs):
     return JsonResponse(data, status=status)
 
 
-def tweets_list_view(request, *args, **kwargs):
-    print(request.user)
+def tweets_list_view_pure_django(request, *args, **kwargs):
     '''
     REST API
     '''
@@ -47,7 +92,7 @@ def tweets_list_view(request, *args, **kwargs):
     return JsonResponse(data)
 
 
-def form_view(request, *args, **kwargs):
+def form_view_pure_django(request, *args, **kwargs):
     user = request.user
     if not request.user.is_authenticated:
         # default AnonymousUser = none

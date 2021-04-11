@@ -52,7 +52,7 @@ Twitter-ish App
                 tweetsId.innerHTML = formatTweet(newTweet) + oldHtml
                 // clean content after the post
                 event.target.reset()
-            } else if (xml.status = 400) {
+            } else if (xml.status === 400) {
                 const contentError = xml.response.content
                 if (contentError) {
                     errorMessage = contentError[0]
@@ -64,8 +64,17 @@ Twitter-ish App
                 } else {
                     alert("An error occured. Please try again later")
                 }
-            }
+            } else if (xml.status === 401) {
+                alert("You must log in")
+                window.location.href = "/login"
 
+            } else if (xml.status === 403) {
+                alert("You must log in")
+                window.location.href = "/login"
+
+            } else if (xml.status === 500) {
+                alert("An error occured. Please try again later")
+            }
             // console.log(xml.status, newTweet) //same page as JsonResponse({},status)
             // reload all tweets after posting sth new but new tweet is at the end
             // loadTweets(tweetsId)
@@ -106,8 +115,9 @@ Twitter-ish App
         xml.responseType = responseType
         xml.open(method, url)
         xml.onload = function () {
-            const serverResponse = xml.response
-            var itemsList = serverResponse.response
+            // const serverResponse = xml.response :pure
+            // itemsList = serverResponse.response :pure
+            var itemsList = xml.response
             var finalList = ''
             var currentTweet = ''
             for (var i = 0; i < itemsList.length; i++) {

@@ -29,6 +29,7 @@ DEBUG = True
 # ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = ['127.0.0.1', '.netlify.app']
 LOGIN_URL = '/login'
+MAX_LENGTH = 200
 
 # Application definition
 
@@ -39,7 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # internal
     'tweetme',
+    # third party
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +131,13 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+        # 'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
