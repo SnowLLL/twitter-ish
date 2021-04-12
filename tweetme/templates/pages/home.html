@@ -10,7 +10,7 @@ Twitter-ish App
 <div class="row">
     <div class='col-md-4 col-10 mx-auto'>
         <!-- though POST, data will be sent to view -->
-        <form id='create-tweet-form' class="form" action="/create-tweets/" method="POST">
+        <form id='create-tweet-form' class="form" action="/api/tweets/create/" method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <div class="d-none alert alert-danger" id="errorInfo"></div>
@@ -160,7 +160,7 @@ Twitter-ish App
     function loadTweets(tweetsById) {
         const xml = new XMLHttpRequest()
         const method = "GET" //'POST'
-        const url = "/tweets/"
+        const url = "api/tweets/"
         const responseType = 'json'
         xml.responseType = responseType
         xml.open(method, url)

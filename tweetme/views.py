@@ -84,7 +84,10 @@ def action_view(request, *args, **kwargs):
             obj.likes.remove(request.user)
         elif action == "retweet":
             new_tweet = Tweet.objects.create(
-                user=request.user, parent=obj, content=content)
+                user=request.user,
+                parent=obj,
+                content=content
+            )
             serializer = TweetSerializer(new_tweet)
             return Response(serializer.data, status=200)
     return Response({}, status=200)
