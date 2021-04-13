@@ -1,6 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { loadTweets } from '../lookup'
 
+//Form Sections
+export const TweetForm = (props) => {
+    var textAreaRef = React.createRef()
+    const handleSumbitForm = (event) => {
+        event.preventDefault()
+        const newValue = textAreaRef.current.value
+        console.log(newValue)
+        textAreaRef = ''
+    }
+    return (
+        <div className={props.className}>
+            <div className="col-12 mb-3">
+                <form onSubmit={handleSumbitForm}>
+                    <textarea required className='form-control mt-5' name="tweet" ref={textAreaRef}></textarea>
+                    <button type="submit" className="btn btn-primary my-2">Tweet</button>
+                </form>
+            </div>
+            <TweetsList />
+        </div>
+    );
+}
+
 // Tweet sections
 export const TweetsList = (props) => {
     const [tweets, setTweets] = useState([])
