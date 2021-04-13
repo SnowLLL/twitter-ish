@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Twitter-ish App
+{% endblock title %}
+
+{% block content %}
+<h2 class="text-center my-4">Welcome to Twitter-ish </h2>
+
+<div class="row">
+    <div class='col-md-4 col-10 mx-auto'>
+        <!-- though POST, data will be sent to view -->
+        <form id='create-tweet-form' class="form" action="/api/tweets/create/" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-none alert alert-danger" id="errorInfo"></div>
+            <!-- NOT 'action'; Use 'value' -->
+            <input type="hidden" value="/" name="next">
+            <textarea required class="form-control" name="content" placeholder="Your tweet here"></textarea>
+            <button class="btn btn-primary my-2" type="submit">Tweet</button>
+        </form>
+    </div>
+</div>
+
+<div id="tweets">Loading</div>
+<script>
+    const tweetsId = document.getElementById("tweets")
+    const tweetFormId = document.getElementById("create-tweet-form")
+    const formErrorId = document.getElementById("errorInfo")
+
+    //  form section 
+    tweetFormId.addEventListener("submit", handleTweetFormSubmit)
+    function handleTweetFormSubmit(event) {
+        // prevent automaticall senting to DATABASE
+        event.preventDefault()
+        const myFormData = new FormData(event.target)
+        const method = event.target.getAttribute("method")
+        const url = event.target.getAttribute("action")
+        xml = new XMLHttpRequest()
+        const responseType = 'json'
+        xml.responseType = responseType
+        xml.open(method, url)
+        xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
+        xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+        xml.onload = function () {
+            if (xml.status === 201) {
+                handleFormError("", false)
+                const newTweet = xml.response
+                // console.log(JSON.parse(newTweet).likes) //change to be json data first if not set response type as json
+                // new post comes first
+                const oldHtml = tweetsId.innerHTML
+                tweetsId.innerHTML = formatTweet(newTweet) + oldHtml
+                // clean content after the post
+                event.target.reset()
+            } else if (xml.status === 400) {
+                const contentError = xml.response.content
+                if (contentError) {
+                    errorMessage = contentError[0]
+                    if (errorMessage) {
+                        handleFormError(errorMessage, true)
+                    } else {
+                        alert("An error occured. Please try again later")
+                    }
+                } else {
+                    alert("An error occured. Please try again later")
+                }
+            } else if (xml.status === 401) {
+                alert("You must log in")
+                window.location.href = "/login"
+
+            } else if (xml.status === 403) {
+                alert("You must log in")
+                window.location.href = "/login"
+
+            } else if (xml.status === 500) {
+                alert("An error occured. Please try again later")
+            }
+            // console.log(xml.status, newTweet) //same page as JsonResponse({},status)
+            // reload all tweets after posting sth new but new tweet is at the end
+            // loadTweets(tweetsId)
+        }
+        xml.onerror = function () {
+            alert("An error occured. Please try again later")
+        }
+        xml.send(myFormData)
+    }
+
+    function handleFormError(msg, display) {
+        if (display === true) {
+            // msg
+            formErrorId.setAttribute("class", "d-block alert alert-danger")
+            formErrorId.innerText = msg
+        } else {
+            // formErrorId.getAttribute("display") = none;
+            formErrorId.setAttribute("class", "d-none alert alert-danger")
+        }
+    }
+
+    // tweet section
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    function handleActionBtn(tweet_id, currentCount, action) {
+        const url = '/api/tweets/action'
+        const method = 'POST'
+        const data = JSON.stringify({
+            id: tweet_id,
+            action: action
+        })
+        console.log(tweet_id)
+        xml = new XMLHttpRequest()
+        xml.open(method, url)
+        xml.setRequestHeader('Content-Type', 'application/json')
+        xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
+        xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+        xml.setRequestHeader('X-CSRFToken', csrftoken)
+        xml.onload = function () {
+            // react handle much better
+            loadTweets(tweetsId)
+        }
+        xml.send(data)
+    }
+
+    function formatTweet(tweet) {
+        return "<div class='border mx-auto p-2 col-12 col-md-7'id='tweet-" + tweet.id + "'><p>" + tweet.content +
+            "</p>" +
+            likeBtn(tweet) +
+            unLikeBtn(tweet) +
+            reTweetBtn(tweet) +
+            "</div>"
+    }
+
+    function likeBtn(tweet) {
+        return "<button class='btn btn-primary btn-group' onClick = handleActionBtn(" + tweet.id + "," + tweet.likes + ",'like')>" + tweet.likes + " Likes</button>"
+    }
+
+    function unLikeBtn(tweet) {
+        return "<button class='btn btn-outline-primary btn-group mx-1' onClick = handleActionBtn(" + tweet.id + "," + tweet.likes + ",'unlike')>Unlike</button>"
+    }
+
+    function reTweetBtn(tweet) {
+        return "<button class='btn btn-outline-success btn-group' onClick = handleActionBtn(" + tweet.id + "," + tweet.likes + ",'retweet')>Retweet</button>"
+    }
+
+    // get data when everytime open the website
+    function loadTweets(tweetsById) {
+        const xml = new XMLHttpRequest()
+        const method = "GET" //'POST'
+        const url = "api/tweets/"
+        const responseType = 'json'
+        xml.responseType = responseType
+        xml.open(method, url)
+        xml.onload = function () {
+            // const serverResponse = xml.response :pure
+            // itemsList = serverResponse.response :pure
+            var itemsList = xml.response
+            var finalList = ''
+            var currentTweet = ''
+            for (var i = 0; i < itemsList.length; i++) {
+                currentTweet = formatTweet(itemsList[i])
+                finalList += currentTweet
+            }
+            tweetsId.innerHTML = finalList
+        }
+        xml.onerror = function () {
+            alert("An error occured. Please try again later")
+        }
+        xml.send()
+    }
+    // load all tweets in this tweetsId
+    loadTweets(tweetsId)
+</script>
+{% endblock content %}

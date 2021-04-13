@@ -4,11 +4,19 @@ import { loadTweets } from '../lookup'
 //Form Sections
 export const TweetForm = (props) => {
     var textAreaRef = React.createRef()
+    const [newtweets, setNewtweets] = useState([])
     const handleSumbitForm = (event) => {
         event.preventDefault()
         const newValue = textAreaRef.current.value
-        console.log(newValue)
-        textAreaRef = ''
+        var tempNewtweets = [...newtweets] // create an array of new tweets
+        // change this to a server side call
+        tempNewtweets.unshift({
+            content: newValue,
+            id: 123,
+            likes: 0
+        })
+        setNewtweets(tempNewtweets)
+        textAreaRef.current.value = ''
     }
     return (
         <div className={props.className}>
@@ -18,19 +26,30 @@ export const TweetForm = (props) => {
                     <button type="submit" className="btn btn-primary my-2">Tweet</button>
                 </form>
             </div>
-            <TweetsList />
+            <TweetsList newtweets={newtweets} />
         </div>
     );
 }
 
 // Tweet sections
 export const TweetsList = (props) => {
+    const [tweetsInit, setTweetsInit] = useState([])
     const [tweets, setTweets] = useState([])
+    useEffect(() => {
+        const finalList = [...props.newtweets].concat(tweetsInit)
+        if (tweets.length !== finalList.length) {
+            setTweets(finalList)
+        }
+    }, [props.newtweets, tweets, tweetsInit])
+
     useEffect(() => {
         // do my lookup
         const myCallback = (response, status) => {
             if (status === 200) {
-                setTweets(response)
+                setTweetsInit(response)
+            }
+            else {
+                alert('there is an error')
             }
         }
         loadTweets(myCallback)

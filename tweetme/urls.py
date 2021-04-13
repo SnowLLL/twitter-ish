@@ -1,7 +1,12 @@
-
 from django.urls import path
-from .views import (detail_view,
-                    tweets_list_view, form_view, delete_view, action_view)
+from .views import (
+    detail_view,
+    tweets_list_view,
+    form_view,
+    delete_view,
+    action_view
+)
+
 
 # internal urls in APP
 # endpoint api/tweets/
