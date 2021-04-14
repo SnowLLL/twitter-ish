@@ -8,11 +8,13 @@ export const TweetForm = (props) => {
     const handleSumbitForm = (event) => {
         event.preventDefault()
         const newValue = textAreaRef.current.value
+        console.log('new value: ', newValue)
         var tempNewtweets = [...newtweets] // create an array of new tweets
         // change this to a server side call
         createTweet(newValue, (response, status) => {
             if (status === 201) {
                 tempNewtweets.unshift(response)
+                console.log(response, status)
             }
             else {
                 console.log(response)
