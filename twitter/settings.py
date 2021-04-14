@@ -139,24 +139,24 @@ STATIC_ROOT = BASE_DIR / "static-root/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 CORS_ALLOW_ALL_ORIGINS = True  # any website has access to my api
 CORS_URLS_REGEX = r'^/api/.*$'
 
 DEFAULT_RENDERER_CLASSES = ['rest_framework.renderers.JSONRenderer']
 DEFAULT_AUTHENTICATION_CLASSES = [
-    'rest_framework.authentication.SessionAuthentication']
+    'rest_framework.authentication.SessionAuthentication'
+]
 if DEBUG:
     DEFAULT_RENDERER_CLASSES += [
         'rest_framework.renderers.BrowsableAPIRenderer'
     ]
     DEFAULT_AUTHENTICATION_CLASSES += [
-        'tweetme.rest_api.dev.DevAuthentication'
+        'twitter.rest_api.dev.DevAuthentication',
     ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
-    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES,
 }
 
 TWEET_ACTION_OPTIONS = ['like', 'unlike', 'retweet']

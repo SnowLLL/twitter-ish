@@ -12,9 +12,9 @@ export const TweetForm = (props) => {
         var tempNewtweets = [...newtweets] // create an array of new tweets
         // change this to a server side call
         createTweet(newValue, (response, status) => {
+            console.log(response, status)
             if (status === 201) {
                 tempNewtweets.unshift(response)
-                console.log(response, status)
             }
             else {
                 console.log(response)

@@ -12,3 +12,6 @@ class DevAuthentication (authentication.BasicAuthentication):
         print(user)
         # ? means random
         return(user, None)
+
+    def authenticate_header(self, request):
+        pass
