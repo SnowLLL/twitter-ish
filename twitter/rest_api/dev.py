@@ -6,6 +6,7 @@ User = get_user_model()
 
 # random user for auth
 class DevAuthentication (authentication.BasicAuthentication):
+    # donot forget to remove SessionAuth & isAuth if you do not to be protected views
     def authenticate(self, request):
         users = User.objects.all()
         user = users.order_by("?").first()
