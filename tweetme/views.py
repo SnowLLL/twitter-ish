@@ -44,7 +44,7 @@ def detail_view(request, tweet_id, *args, **kwargs):
 @api_view(['DELETE', 'POST'])
 # unprotection for react app to use
 # @authentication_classes([SessionAuthentication])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def delete_view(request, tweet_id, *args, **kwargs):
     ts = Tweet.objects.filter(id=tweet_id)
     if not ts.exists():
@@ -60,13 +60,12 @@ def delete_view(request, tweet_id, *args, **kwargs):
 @api_view(['POST'])
 # unprotection for react app to use
 # @authentication_classes([SessionAuthentication])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def action_view(request, *args, **kwargs):
     '''
     id is required
     Actions: like, unlike, retweet
     '''
-    print(request.data)
     # in serializer, it has to be (dara=...)
     serializer = ActionSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
@@ -108,10 +107,10 @@ def tweets_list_view(request, *args, **kwargs):
 # unprotection for react app to use
 # default Session
 # @ authentication_classes([SessionAuthentication])
-# @ permission_classes([IsAuthenticated])
+@ permission_classes([IsAuthenticated])
 def form_view(request, *args, **kwargs):
     # be careful (data=...) or maybe server errors
-    serializer = TweetCreateSerializer(data=request.POST)
+    serializer = TweetCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         # ()solve null content errors
         serializer.save(user=request.user)

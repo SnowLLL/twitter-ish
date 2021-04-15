@@ -10,20 +10,23 @@ export const TweetForm = (props) => {
         const newValue = textAreaRef.current.value
         console.log('new value: ', newValue)
         var tempNewtweets = [...newtweets] // create an array of new tweets
+
         // change this to a server side call
         createTweet(newValue, (response, status) => {
+            // backend API response
             console.log(response, status)
             if (status === 201) {
                 tempNewtweets.unshift(response)
+                setNewtweets(tempNewtweets)
             }
             else {
                 console.log(response)
                 alert("An error occured")
             }
         })
-        setNewtweets(tempNewtweets)
         textAreaRef.current.value = ''
     }
+
     return (
         <div className={props.className}>
             <div className="col-12 mb-3">
