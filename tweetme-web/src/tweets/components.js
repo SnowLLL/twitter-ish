@@ -68,23 +68,36 @@ export const TweetsList = (props) => {
             apiTweetList(handleTweetListLookup)
         }
     }, [tweetsInit, tweetsDidset, setTweetsDidset])
+
+    const handleDidRetweet = (newTweet) => {
+        const updatetweetsInit = [...tweetsInit]
+        updatetweetsInit.unshift(newTweet)
+        setTweetsInit(updatetweetsInit)
+
+        const updateFinalTweets = [...tweets]
+        updateFinalTweets.unshift(tweets) // why tweets not newTweet?
+        setTweets(updateFinalTweets)
+    }
     return tweets.map((item, index) => {
-        return <Tweet tweet={item} className='my-5 py-5 border bg-white text-dark' key={`${index}-{ item.id }`} /> // `` NOT ''
+        return <Tweet
+            tweet={item}
+            didRetweet={handleDidRetweet}
+            className='my-5 py-5 border bg-white text-dark'
+            key={`${index}-{ item.id }`} /> // `` NOT ''
     })
 }
 
 // Action: like unlike retween btns
 export function ActionBtn(props) {
-    const { tweet, action } = props
-    const [likes, setLikes] = useState(tweet.likes ? tweet.likes : 0)
-    // const [clickedLike, setClickedLike] = useState(false)
+    const { tweet, action, didPerformAction } = props
+    const likes = tweet.likes ? tweet.likes : 0
     const className = props.className ? props.className : 'btn btn-primary btn-sm'
     const actionDisplay = action.display ? action.display : 'ACTION'
+    //backend 
     const handleBackendActionEvent = (response, status) => {
         console.log(response, status)
-        if (status === 200) {
-            setLikes(response.likes)
-            // setClickedLike(true)
+        if ((status === 200 || 201) && didPerformAction) {
+            didPerformAction(response, status)
         }
     }
     const handleActionClick = (event) => {
@@ -97,21 +110,36 @@ export function ActionBtn(props) {
 
 // key as props
 export function Tweet(props) {
-    const { tweet } = props
+    const { tweet, didRetweet } = props
+    const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
     const className = props.className ? props.className : 'col-10 mx-auto col-md-6'
+
+    // display 
+    const handlePerformAction = (newActionTweet, status) => {
+        if (status === 200) {
+            setActionTweet(newActionTweet)
+
+        } else if (status === 201) {
+            if (didRetweet) {
+                didRetweet(newActionTweet)
+            }
+        }
+    }
     return (
         <div className={className}>
             <div>
                 < p >{tweet.id} - {tweet.content}</p >
                 < ParentTweet tweet={tweet} />
             </div>
-
-            <div className="btn btn-primary">
-                <ActionBtn tweet={tweet} action={{ type: 'like', display: 'Likes' }} />
-                <ActionBtn tweet={tweet} action={{ type: 'unlike', display: 'UnLikes' }} />
-                <ActionBtn tweet={tweet} action={{ type: 'retweet', display: 'Retweet' }} />
-            </div>
+            {actionTweet &&
+                <div className="btn btn-primary">
+                    <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'like', display: 'Likes' }} />
+                    <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'unlike', display: 'UnLikes' }} />
+                    <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'retweet', display: 'Retweet' }} />
+                </div>
+            }
         </div >
+
     );
 }
 
