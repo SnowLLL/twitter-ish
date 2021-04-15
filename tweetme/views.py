@@ -99,6 +99,10 @@ def action_view(request, *args, **kwargs):
 @ api_view(['GET'])
 def tweets_list_view(request, *args, **kwargs):
     ts = Tweet.objects.all()
+    # e.g ?username =Terry in the route path // App.props give a children named 'username'
+    username = request.GET.get('username')
+    if username != None:
+        ts = ts.filter(user__username__iexact=username)
     serializer = TweetSerializer(ts, many=True)
     return Response(serializer.data)
 

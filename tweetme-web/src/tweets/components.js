@@ -35,7 +35,7 @@ export const TweetForm = (props) => {
                     <button type="submit" className="btn btn-primary my-2">Tweet</button>
                 </form>
             </div>
-            <TweetsList newtweets={newtweets} />
+            <TweetsList {...props} newtweets={newtweets} />
         </div>
     );
 }
@@ -64,9 +64,9 @@ export const TweetsList = (props) => {
                     alert('there is an error')
                 }
             }
-            apiTweetList(handleTweetListLookup)
+            apiTweetList(props.username, handleTweetListLookup)
         }
-    }, [tweetsInit, tweetsDidset, setTweetsDidset])
+    }, [tweetsInit, tweetsDidset, setTweetsDidset, props.username])
 
     const handleDidRetweet = (newTweet) => {
         const updatetweetsInit = [...tweetsInit]
