@@ -17,7 +17,7 @@ function getCookie(name) {
 
 const csrftoken = getCookie('csrftoken');
 
-const Lookup = (method, endpoint, callback, data) => {
+export const BackendLookup = (method, endpoint, callback, data) => {
     let jsonData;
     if (data) {
         //  converts a JavaScript object or value to a JSON string
@@ -45,12 +45,4 @@ const Lookup = (method, endpoint, callback, data) => {
     }
     xml.send(jsonData)
     console.log('jsonData: ', jsonData)
-}
-
-export function loadTweets(callback) {
-    Lookup("GET", 'tweets/', callback)
-}
-
-export const createTweet = (newTweet, callback) => {
-    Lookup("POST", 'tweets/create/', callback, { content: newTweet })
 }

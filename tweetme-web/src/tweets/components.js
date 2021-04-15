@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { loadTweets, createTweet } from '../lookup'
+import { apiTweetList, apiTweetCreate } from './lookup'
 
 //Form Sections
 export const TweetForm = (props) => {
@@ -11,9 +11,8 @@ export const TweetForm = (props) => {
         console.log('new value: ', newValue)
         var tempNewtweets = [...newtweets] // create an array of new tweets
 
-        // change this to a server side call
-        createTweet(newValue, (response, status) => {
-            // backend API response
+        // backend API response
+        const BackendTweetCreateUpdate = (response, status) => {
             console.log(response, status)
             if (status === 201) {
                 tempNewtweets.unshift(response)
@@ -23,7 +22,9 @@ export const TweetForm = (props) => {
                 console.log(response)
                 alert("An error occured")
             }
-        })
+        }
+        // change this to a server side call
+        apiTweetCreate(newValue, BackendTweetCreateUpdate)
         textAreaRef.current.value = ''
     }
 
@@ -55,7 +56,7 @@ export const TweetsList = (props) => {
     useEffect(() => {
         if (tweetsDidset === false) {
             // do my lookup
-            const myCallback = (response, status) => {
+            const handleTweetListLookup = (response, status) => {
                 if (status === 200) {
                     setTweetsInit(response)
                     setTweetsDidset(true)
@@ -64,7 +65,7 @@ export const TweetsList = (props) => {
                     alert('there is an error')
                 }
             }
-            loadTweets(myCallback)
+            apiTweetList(handleTweetListLookup)
         }
     }, [tweetsInit, tweetsDidset, setTweetsDidset])
     return tweets.map((item, index) => {
