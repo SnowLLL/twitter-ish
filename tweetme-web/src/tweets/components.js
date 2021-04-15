@@ -13,7 +13,6 @@ export const TweetForm = (props) => {
 
         // backend API response
         const BackendTweetCreateUpdate = (response, status) => {
-            console.log(response, status)
             if (status === 201) {
                 tempNewtweets.unshift(response)
                 setNewtweets(tempNewtweets)
@@ -95,7 +94,6 @@ export function ActionBtn(props) {
     const actionDisplay = action.display ? action.display : 'ACTION'
     //backend 
     const handleBackendActionEvent = (response, status) => {
-        console.log(response, status)
         if ((status === 200 || 201) && didPerformAction) {
             didPerformAction(response, status)
         }

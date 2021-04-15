@@ -44,5 +44,4 @@ export const BackendLookup = (method, endpoint, callback, data) => {
         alert("An error occured. Please try again later")
     }
     xml.send(jsonData)
-    console.log('jsonData: ', jsonData)
 }
