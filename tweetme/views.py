@@ -25,7 +25,6 @@ def home_view(request, *args, **kwargs):
     # return HttpResponse("<h1>Tweet me homepage</h1>")
     return render(request, 'pages/home.html', context={}, status=200)
 
-
 # [use third party app - REST Framework]  serializer replace _view built in pure django
 
 
