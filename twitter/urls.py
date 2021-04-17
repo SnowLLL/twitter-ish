@@ -17,20 +17,28 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
-from tweetme.views import home_view
-from django.views.generic import TemplateView
+from tweetme.views import (
+    tweet_list_view_react,
+    tweet_detail_view_react,
+    tweet_profile_view_react)
+# from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view),
-    path('react/', TemplateView.as_view(template_name='react.html')),
+    path('',  tweet_list_view_react),
+    path('<int:tweet_id>',  tweet_detail_view_react),
+    path('profile/<str:username>',  tweet_profile_view_react),
+    # username/tweet_id from views(request,props)
+    path('api/tweets/', include('tweetme.urls')),
+
     # path('tweets/<int:tweet_id>', detail_view),
     # path('api/tweets/', tweets_list_view),
     # path('create-tweets/', form_view),
 
     # path('api/tweets/action', action_view),
     # path('api/tweets/<int:tweet_id>/delete', delete_view),
-    path('api/tweets/', include('tweetme.urls'))
+    # path('react/', TemplateView.as_view(template_name='react.html')),
+    # # since react.html is not dynamic, it has to be separate in different django views
 ]
 
 if settings.DEBUG:

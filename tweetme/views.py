@@ -22,13 +22,32 @@ from rest_framework.authentication import SessionAuthentication
 
 def home_view(request, *args, **kwargs):
     # print(args,kwargs) to see what they are
+    usename = None
+    if request.user.is_authenticated:
+        username = request.user.username
     # return HttpResponse("<h1>Tweet me homepage</h1>")
-    return render(request, 'pages/home.html', context={}, status=200)
+    return render(request, 'pages/home.html', context={"username": username})
+
+
+def tweet_list_view_react(request, *args, **kwargs):
+    return render(request, 'tweets/list.html')
+
+
+# def tweet_detail_view_react(request, tweetId, *args, **kwargs):
+#     return render(request, 'tweets/detail.html', context={"tweetId": tweetId})
+
+def tweet_detail_view_react(request, tweet_id, *args, **kwargs):
+    return render(request, "tweets/detail.html", context={"tweet_id": tweet_id})
+
+
+def tweet_profile_view_react(request, username, *args, **kwargs):
+    return render(request, 'tweets/profile.html', context={"profile_username": username})
+
 
 # [use third party app - REST Framework]  serializer replace _view built in pure django
 
 
-@api_view(['GET'])
+@ api_view(['GET'])
 def detail_view(request, tweet_id, *args, **kwargs):
     ts = Tweet.objects.filter(id=tweet_id)
     print(ts)
@@ -40,10 +59,10 @@ def detail_view(request, tweet_id, *args, **kwargs):
 
 
 # combine DELETE && POST together on the same page
-@api_view(['DELETE', 'POST'])
+@ api_view(['DELETE', 'POST'])
 # unprotection for react app to use
 # @authentication_classes([SessionAuthentication])
-@permission_classes([IsAuthenticated])
+@ permission_classes([IsAuthenticated])
 def delete_view(request, tweet_id, *args, **kwargs):
     ts = Tweet.objects.filter(id=tweet_id)
     if not ts.exists():
@@ -56,10 +75,10 @@ def delete_view(request, tweet_id, *args, **kwargs):
     return Response({"Message": "You successfully delete it"}, status=200)
 
 
-@api_view(['POST'])
+@ api_view(['POST'])
 # unprotection for react app to use
 # @authentication_classes([SessionAuthentication])
-@permission_classes([IsAuthenticated])
+@ permission_classes([IsAuthenticated])
 def action_view(request, *args, **kwargs):
     '''
     id is required

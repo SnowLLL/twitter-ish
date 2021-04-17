@@ -47,7 +47,6 @@ export function Tweet(props) {
                     </React.Fragment>}
                 {isDetail === true ? null : <button id="viewLink" className="btn btn-outline-primary btn-sm" onClick={handleDetailLink}> View </button>}
             </div>
-
         </div >
 
     );

@@ -14,11 +14,11 @@ if (rId) {
 }
 
 const TweetDetailElement = document.querySelectorAll('.tweetme-detail')
-if (TweetDetailElement) {
-    TweetDetailElement.forEach((container) => {
-        ReactDOM.render(e(TweetDetailComponent, container.dataset), container);
-    })
-}
+
+TweetDetailElement.forEach(container => {
+    ReactDOM.render(e(TweetDetailComponent, container.dataset), container);
+})
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
