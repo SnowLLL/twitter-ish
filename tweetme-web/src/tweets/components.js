@@ -17,13 +17,13 @@ export const TweetForm = (props) => {
     const handleNewTweet = (newTweet) => {
         let tempNewtweets = [...newtweets] // create an array of new tweets
         tempNewtweets.unshift(newTweet)
-        setNewtweets(newTweet)
+        setNewtweets(tempNewtweets)
     }
 
     return (
         <div className={props.className}>
             {canTweet === true &&
-                <TweetCreate didtweet={handleNewTweet} className="col-12 mb-3" />}
+                <TweetCreate didTweet={handleNewTweet} className="col-12 mb-3" />}
             <TweetsList {...props} newtweets={newtweets} />
         </div>
     );
