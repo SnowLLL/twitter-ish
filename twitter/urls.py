@@ -29,7 +29,8 @@ urlpatterns = [
     path('<int:tweet_id>',  tweet_detail_view_react),
     path('profile/<str:username>',  tweet_profile_view_react),
     # username/tweet_id from views(request,props)
-    path('api/tweets/', include('tweetme.urls')),
+    # include > tweetme folder > api folder > urls,py
+    path('api/tweets/', include('tweetme.api.urls')),
 
     # path('tweets/<int:tweet_id>', detail_view),
     # path('api/tweets/', tweets_list_view),
