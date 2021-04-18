@@ -23,9 +23,18 @@ from tweetme.views import (
     tweet_profile_view_react)
 # from django.views.generic import TemplateView
 
+from accounts.views import (
+    login_view,
+    register_view,
+    logout_view
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  tweet_list_view_react),
+    path('login/', login_view),
+    path('register/', register_view),
+    path('logout/', logout_view),
     path('<int:tweet_id>',  tweet_detail_view_react),
     path('profile/<str:username>',  tweet_profile_view_react),
     # username/tweet_id from views(request,props)

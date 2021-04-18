@@ -1,5 +1,8 @@
 <form method="POST"> {% csrf_token %}
     <!-- wrap text as para -->
     {{ form.as_p }}
-    <button class="btn btn-secondary" type="submit">Tweet</button>
+    <button class="btn btn-secondary" type="submit">
+        {% if btn_label %} {{btn_label}}
+        {% else %} Tweet
+        {% endif%}</button>
 </form>

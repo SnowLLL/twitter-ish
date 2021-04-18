@@ -18,7 +18,7 @@ from .serializers import (
 
 def home_view(request, *args, **kwargs):
     # print(args,kwargs) to see what they are
-    usename = None
+    username = None
     if request.user.is_authenticated:
         username = request.user.username
     # return HttpResponse("<h1>Tweet me homepage</h1>")

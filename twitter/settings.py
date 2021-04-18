@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # internal
     'tweetme',
+    'accounts',
 
     # third party
     'rest_framework',
@@ -144,7 +145,8 @@ CORS_URLS_REGEX = r'^/api/.*$'
 
 DEFAULT_RENDERER_CLASSES = ['rest_framework.renderers.JSONRenderer']
 DEFAULT_AUTHENTICATION_CLASSES = [
-    'rest_framework.authentication.SessionAuthentication'
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
 ]
 if DEBUG:
     DEFAULT_RENDERER_CLASSES += [

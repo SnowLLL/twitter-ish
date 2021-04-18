@@ -30,7 +30,7 @@ export const BackendLookup = (method, endpoint, callback, data) => {
     xml.setRequestHeader('Content-Type', 'application/json')
 
     if (csrftoken) {
-        xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
+        // xml.setRequestHeader('HTTP_X_REQUESTED_WITH', 'XMLHttpRequest')
         xml.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
         xml.setRequestHeader('X-CSRFToken', csrftoken)
         //only work on django, not on react local site
@@ -38,9 +38,16 @@ export const BackendLookup = (method, endpoint, callback, data) => {
     }
 
     xml.onload = function () {
+        if (xml.status === 403 && xml.response) {
+            var detail = xml.response.detail
+            if (detail = "Authentication credentials were not provided.") {
+                window.location.href = '/login?showLoginRequired=true'
+            }
+        }
         callback(xml.response, xml.status)
     }
-    xml.onerror = function () {
+    xml.onerror = function (e) {
+        console.log('error: ', e)
         alert("An error occured. Please try again later")
     }
     xml.send(jsonData)
