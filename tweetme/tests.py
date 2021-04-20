@@ -28,7 +28,12 @@ class TweetTestCase(TestCase):
     def test_action_like(self):
         client = self.get_client()
         response = client.post('/api/tweets/action/',
-                               {'id': 90, 'action': 'like'})
-        print(response.get('ajax'))
+                               {'id': 120, 'action': 'like'})
+        # print(response.get('ajax'))
         # like_count = response.json().get('likes')
         # self.assertEqual(like_count, 1)
+        self.assertEqual(self.user.tweetlikes_set.count(),
+                         self.user.tweet_user.count())
+
+    def test_tweets_related_name(self):
+        self.assertEqual(self.user.tweets.count(), 0)

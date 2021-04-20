@@ -23,7 +23,12 @@ class Tweet(models.Model):
     # he posted on blog posts, but say it was posted by an anonymous (or deleted) user.
     parent = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
     # if delete uses, all of users' tweets will be deleted
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # If you don't specify a related_name, Django automatically creates one using the name
+    # of your model with the suffix _set, for instance User.map_set.all()
+    # Now, > User.tweets.all() b/c related name replaced User.tweet_set.all()
+    user = models.ForeignKey(
+        User, related_name='tweets', on_delete=models.CASCADE)
+    # > User.tweetlikes_set.all()
     likes = models.ManyToManyField(
         User, related_name='tweet_user', blank=True, through=TweetLikes)
     content = models.CharField(blank=True, null=True, max_length=200)
