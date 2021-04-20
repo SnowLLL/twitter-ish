@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # internal
     'tweetme',
     'accounts',
+    'profiles',
 
     # third party
     'rest_framework',

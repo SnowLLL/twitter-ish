@@ -34,7 +34,3 @@ def tweet_list_view_react(request, *args, **kwargs):
 
 def tweet_detail_view_react(request, tweet_id, *args, **kwargs):
     return render(request, "tweets/detail.html", context={"tweet_id": tweet_id})
-
-
-def tweet_profile_view_react(request, username, *args, **kwargs):
-    return render(request, 'tweets/profile.html', context={"profile_username": username})

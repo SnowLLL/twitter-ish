@@ -16,11 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path, include
+from django.urls import path, include, re_path
 from tweetme.views import (
     tweet_list_view_react,
-    tweet_detail_view_react,
-    tweet_profile_view_react)
+    tweet_detail_view_react,)
 # from django.views.generic import TemplateView
 
 from accounts.views import (
@@ -36,10 +35,11 @@ urlpatterns = [
     path('register/', register_view),
     path('logout/', logout_view),
     path('<int:tweet_id>',  tweet_detail_view_react),
-    path('profile/<str:username>',  tweet_profile_view_react),
     # username/tweet_id from views(request,props)
     # include > tweetme folder > api folder > urls,py
     path('api/tweets/', include('tweetme.api.urls')),
+    # ? means s is optional
+    re_path(r'profiles?/', include('profiles.urls')),
 
     # path('tweets/<int:tweet_id>', detail_view),
     # path('api/tweets/', tweets_list_view),
