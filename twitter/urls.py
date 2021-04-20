@@ -40,6 +40,7 @@ urlpatterns = [
     path('api/tweets/', include('tweetme.api.urls')),
     # ? means s is optional
     re_path(r'profiles?/', include('profiles.urls')),
+    re_path(r'api/profiles?/', include('profiles.api.urls')),
 
     # path('tweets/<int:tweet_id>', detail_view),
     # path('api/tweets/', tweets_list_view),
