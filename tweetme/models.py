@@ -33,6 +33,7 @@ class Tweet(models.Model):
         User, related_name='tweet_user', blank=True, through=TweetLikes)
     content = models.CharField(blank=True, null=True, max_length=200)
     image = models.FileField(upload_to='image/', blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         # make the new one comes first

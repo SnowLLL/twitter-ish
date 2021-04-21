@@ -28,9 +28,9 @@ def home_view(request, *args, **kwargs):
 def tweet_list_view_react(request, *args, **kwargs):
     return render(request, 'tweets/list.html')
 
-
 # def tweet_detail_view_react(request, tweetId, *args, **kwargs):
 #     return render(request, 'tweets/detail.html', context={"tweetId": tweetId})
+
 
 def tweet_detail_view_react(request, tweet_id, *args, **kwargs):
     return render(request, "tweets/detail.html", context={"tweet_id": tweet_id})

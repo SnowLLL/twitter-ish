@@ -98,6 +98,21 @@ def tweets_list_view(request, *args, **kwargs):
     serializer = TweetSerializer(ts, many=True)
     return Response(serializer.data)
 
+
+@ api_view(['GET'])
+@ permission_classes([IsAuthenticated])
+def tweets_feed_view(request, *args, **kwargs):
+    profiles = request.user.following.all()
+    feed_users_id = []
+    if profiles.exists():
+        # request users self and all following users
+        feed_users_id = [x.user.id for x in profiles]
+    feed_users_id.append(request.user.id)
+    ts = Tweet.objects.filter(
+        user__id__in=feed_users_id).order_by('-timestamp')  # recently
+    serializer = TweetSerializer(ts, many=True)
+    return Response(serializer.data)
+
 # HTTP method the client === POST
 
 
