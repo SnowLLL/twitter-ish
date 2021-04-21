@@ -22,7 +22,7 @@ class TweetTestCase(TestCase):
 
     def test_tweet_list(self):
         client = self.get_client()
-        response = client.get('/api/tweets/')
+        response = client.get('/api/tweets/', format='json')
         self.assertEqual(response.status_code, 200)
 
     def test_action_like(self):
