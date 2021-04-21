@@ -7,9 +7,16 @@ from django.db.models import Q
 User = settings.AUTH_USER_MODEL
 
 
+class TweetLikes(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tweet = models.ForeignKey('Tweet', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+
 class TweetQuerySet(models.QuerySet):
-    def by_username(self, username):
-        return self.filter(user__username__iexact=username)
+    # Not Working: Tweets.objects.all().by_username(username)
+    # def by_username(self, username):
+    #     return self.filter(user__username__iexact=username)
 
     # self = model's object
 
@@ -17,7 +24,7 @@ class TweetQuerySet(models.QuerySet):
         feed_users_id = []
         if user.following.exists():
             feed_users_id = user.following.values_list(
-                'user__id', flat=True)
+                'user__id', flat=True)  # [x.user.id for x in profiles]
         # users self and all following users
         # Q allowed do both query at the same time
         # distinct() do not repeat the same value
@@ -33,13 +40,10 @@ class TweetManager(models.Manager):
     def feed(self, user):
         return self.getQuerySet().feed(user)
 
+    def by_username(self, username):
+        return self.filter(user__username__iexact=username)
+
 # another sheet
-
-
-class TweetLikes(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    tweet = models.ForeignKey('Tweet', on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now=True)
 
 
 class Tweet(models.Model):
@@ -62,6 +66,7 @@ class Tweet(models.Model):
     content = models.CharField(blank=True, null=True, max_length=200)
     image = models.FileField(upload_to='image/', blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
     objects = TweetManager()
 
     class Meta:
@@ -72,7 +77,7 @@ class Tweet(models.Model):
     def is_retweet(self):
         return self.parent != None
 
-    # old way serializing
+    # old method to do serializing
 
     # display id's content
     # def __str__(self):

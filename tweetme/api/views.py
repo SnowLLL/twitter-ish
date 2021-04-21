@@ -102,11 +102,13 @@ def get_paginated_queryset_response(qs, request):
 def tweets_list_view(request, *args, **kwargs):
     ts = Tweet.objects.all()
     # e.g ?username =Terry in the route path // App.props give a children named 'username'
-    username = request.GET.get('username')
+    username = request.GET.get('username')  # ?username=Terry
     if username != None:
         # add all() b/c by_username() is not defined in TweetManager
-        ts = ts.by_username(username)
-        # ts = ts.filter(user__username__iexact=username) -> move to TweetQuerySet
+        # ts = ts.by_username(username)
+        ts = Tweet.objects.by_username(username)
+        # -> move to TweetQuerySet
+        # ts = ts.filter(user__username__iexact=username)
     return get_paginated_queryset_response(ts, request)
 
 
