@@ -22,7 +22,7 @@ class TweetQuerySet(models.QuerySet):
         # Q allowed do both query at the same time
         # distinct() do not repeat the same value
         return self.filter(Q(user__id__in=feed_users_id) |
-                           Q(user=user)).distinct().order_by('-timestamp')  # recently
+                           Q(user=user)).distinct().order_by("-timestamp")  # recently not working?
 
 
 class TweetManager(models.Manager):

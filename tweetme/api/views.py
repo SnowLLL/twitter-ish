@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 # [use third party app - REST Framework]  serializer replace _view built in pure django
@@ -89,24 +90,31 @@ def action_view(request, *args, **kwargs):
     return Response({}, status=200)
 
 
+def get_paginated_queryset_response(qs, request):
+    paginator = PageNumberPagination()
+    paginator.page_size = 20
+    paginated_qs = paginator.paginate_queryset(qs, request)
+    serializer = TweetSerializer(paginated_qs, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
+
 @ api_view(['GET'])
 def tweets_list_view(request, *args, **kwargs):
+    ts = Tweet.objects.all()
     # e.g ?username =Terry in the route path // App.props give a children named 'username'
     username = request.GET.get('username')
     if username != None:
         # add all() b/c by_username() is not defined in TweetManager
-        ts = Tweet.objects.all().by_username(username)
+        ts = ts.by_username(username)
         # ts = ts.filter(user__username__iexact=username) -> move to TweetQuerySet
-    serializer = TweetSerializer(ts, many=True)
-    return Response(serializer.data)
+    return get_paginated_queryset_response(ts, request)
 
 
 @ api_view(['GET'])
 @ permission_classes([IsAuthenticated])
 def tweets_feed_view(request, *args, **kwargs):
     qs = Tweet.objects.feed(request.user)
-    serializer = TweetSerializer(qs, many=True)
-    return Response(serializer.data)
+    return get_paginated_queryset_response(qs, request)
 
     # # 1st method: more effecient to do query -> move to TweetManager
     # feed_users_id = []
