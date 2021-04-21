@@ -1,6 +1,20 @@
 import React, { useState } from 'react'
 import { ActionBtn } from './buttons'
 
+// parent API
+export function ParentTweet(props) {
+    const { tweet } = props
+    return tweet.parent
+        ? <div className='row'>
+            <div className='col-11 mx-auto my-2 p-3 border'>
+                <p className='mb-0 text-muted'>Retweet</p>
+                {/* hiddenActions === true */}
+                <Tweet hiddenActions tweet={tweet.parent} />
+            </div>
+        </div>
+        : null
+}
+
 // key as props
 export function Tweet(props) {
     const { tweet, didRetweet, hiddenActions } = props
@@ -34,11 +48,17 @@ export function Tweet(props) {
     return (
         <div className={className}>
             <div>
-                < p >{tweet.id} - {tweet.content}</p >
+                <p>
+                    {tweet.user.first_name} {' '}
+                    {tweet.user.last_name} {''}
+                    @{tweet.user.username} {''}
+                </p>
+
+                < p >{tweet.content}</p >
                 < ParentTweet tweet={tweet} />
             </div>
 
-            <div className='btn btn-group'>
+            <div className='btn btn-group px-0'>
                 {(actionTweet && hiddenActions !== true) &&
                     <React.Fragment>
                         <ActionBtn tweet={actionTweet} didPerformAction={handlePerformAction} action={{ type: 'like', display: 'Likes' }} />
@@ -50,18 +70,4 @@ export function Tweet(props) {
         </div >
 
     );
-}
-
-// parent API
-export function ParentTweet(props) {
-    const { tweet } = props
-    return tweet.parent
-        ? <div className='row'>
-            <div className='col-11 mx-auto my-2 p-3 border'>
-                <p className='mb-0 text-muted'>Retweet</p>
-                {/* hiddenActions === true */}
-                <Tweet hiddenActions tweet={tweet.parent} />
-            </div>
-        </div>
-        : null
 }
