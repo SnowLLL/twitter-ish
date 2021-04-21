@@ -4,6 +4,7 @@ from ..models import Tweet
 from ..forms import TweetForm
 import random
 from django.utils.http import is_safe_url
+# from django.db.models import Q
 
 # for use REST FRAMEWORK
 from django.conf import settings
@@ -90,11 +91,12 @@ def action_view(request, *args, **kwargs):
 
 @ api_view(['GET'])
 def tweets_list_view(request, *args, **kwargs):
-    ts = Tweet.objects.all()
     # e.g ?username =Terry in the route path // App.props give a children named 'username'
     username = request.GET.get('username')
     if username != None:
-        ts = ts.filter(user__username__iexact=username)
+        # add all() b/c by_username() is not defined in TweetManager
+        ts = Tweet.objects.all().by_username(username)
+        # ts = ts.filter(user__username__iexact=username) -> move to TweetQuerySet
     serializer = TweetSerializer(ts, many=True)
     return Response(serializer.data)
 
@@ -102,18 +104,36 @@ def tweets_list_view(request, *args, **kwargs):
 @ api_view(['GET'])
 @ permission_classes([IsAuthenticated])
 def tweets_feed_view(request, *args, **kwargs):
-    profiles = request.user.following.all()
-    feed_users_id = []
-    if profiles.exists():
-        # request users self and all following users
-        feed_users_id = [x.user.id for x in profiles]
-    feed_users_id.append(request.user.id)
-    ts = Tweet.objects.filter(
-        user__id__in=feed_users_id).order_by('-timestamp')  # recently
-    serializer = TweetSerializer(ts, many=True)
+    qs = Tweet.objects.feed(request.user)
+    serializer = TweetSerializer(qs, many=True)
     return Response(serializer.data)
 
-# HTTP method the client === POST
+    # # 1st method: more effecient to do query -> move to TweetManager
+    # feed_users_id = []
+    # if request.user.following.exists():
+    #     feed_users_id = request.user.following.values_list(
+    #         'user__id', flat=True)
+    #  # request users self and all following users
+    #  # Q allowed do both query at the same time
+    #  # distinct() do not repeat the same value
+    # ts = Tweet.objects.filter(Q(user__id__in=feed_users_id) |
+    #                           Q(user=request.user)).distinct().order_by('-timestamp')  # recently
+    # serializer = TweetSerializer(ts, many=True)
+    # return Response(serializer.data)
+
+    # The second methon: less effecient to look up database
+    # profiles = request.user.following.all()
+    # feed_users_id = []
+    # if profiles.exists():
+    #     # request users self and all following users
+    #     feed_users_id = [x.user.id for x in profiles]
+    # feed_users_id.append(request.user.id)
+    # ts = Tweet.objects.filter(
+    #     user__id__in=feed_users_id).order_by('-timestamp')  # recently
+    # serializer = TweetSerializer(ts, many=True)
+    # return Response(serializer.data)
+
+    # HTTP method the client === POST
 
 
 @ api_view(['POST'])
