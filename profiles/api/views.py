@@ -25,6 +25,8 @@ User = get_user_model()
 @ permission_classes([IsAuthenticated])
 def user_follow_view(request, username, *args, **kwargs):
     me = request.user
+    if me.username == username:
+        return Response({'count': me.profile.followers.all().count()}, status=200)
     otherUser = User.objects.filter(username=username)
     if otherUser.exists() == False:
         raise Http404()
