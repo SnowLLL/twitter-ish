@@ -7,11 +7,7 @@ from django.utils.http import is_safe_url
 
 # for use REST FRAMEWORK
 from django.conf import settings
-from .serializers import (
-    TweetSerializer,
-    ActionSerializer,
-    TweetCreateSerializer
-)
+
 
 # Create your views here.
 

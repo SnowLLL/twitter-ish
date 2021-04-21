@@ -1,6 +1,7 @@
 from django.conf import settings
 from rest_framework import serializers
 from .models import Tweet
+from profiles.serializer import PublicProfileSerializer
 
 # almost the same as forms.py
 
@@ -20,11 +21,13 @@ class ActionSerializer (serializers.Serializer):
 
 
 class TweetCreateSerializer(serializers.ModelSerializer):
+    # user = serializers.SerializerMethodField(read_only=True)
+    user = PublicProfileSerializer(source='user.profile', read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Tweet
-        fields = ["id", "content", "likes"]
+        fields = ['user', "id", "content", "likes", 'timestamp']
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -36,12 +39,15 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 
 
 class TweetSerializer(serializers.ModelSerializer):
+    user = PublicProfileSerializer(source='user.profile', read_only=True)
     likes = serializers.SerializerMethodField(read_only=True)
     parent = TweetCreateSerializer(read_only=True)
 
     class Meta:
         model = Tweet
-        fields = ["id", "content", "likes", 'is_retweet', 'parent']
+        fields = ['user', 'id', 'content', 'likes',
+                  'is_retweet', 'parent', 'timestamp']
 
+    # after get data, then it can display in fields
     def get_likes(self, obj):
         return obj.likes.count()
