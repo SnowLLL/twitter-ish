@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 # from rest_framework.authentication import SessionAuthentication
+from ..serializer import PublicProfileSerializer
 
 User = get_user_model()
 
@@ -19,6 +20,15 @@ User = get_user_model()
 #     currentUser = request.user
 
 #     return Response({}, status=400)
+@ api_view(['GET'])
+def profile_detail_api_view(request, username, *args, **kwargs):
+    qs = Profile.objects.filter(user__username=username)
+    if not qs.exists():
+        return Response({"detail": "User is not found"}, status=404)
+    # the first one of objects
+    profile_obj = qs.first()
+    data = PublicProfileSerializer(instance=profile_obj)
+    return Response(data.data, status=200)
 
 
 @ api_view(['GET', 'POST'])

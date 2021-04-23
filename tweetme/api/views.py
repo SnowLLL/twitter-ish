@@ -160,8 +160,8 @@ def form_view(request, *args, **kwargs):
         return Response(serializer.data, status=201)
     return Response({}, status=400)
 
-
 # ------------- Pure Django Below --------------------------
+
 
 def detail_view_pure_django(request, tweet_id, *args, **kwargs):
     '''
