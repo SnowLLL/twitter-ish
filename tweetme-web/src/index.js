@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { TweetForm, TweetDetailComponent, FeedFormComponents } from './tweets';
+import { ProfileBadgeComponet } from './profiles'
 import reportWebVitals from './reportWebVitals';
 
 
@@ -9,6 +10,8 @@ const e = React.createElement
 const rId = document.getElementById('tweetme');
 const feedId = document.getElementById('tweetme-feed');
 const TweetDetailElement = document.querySelectorAll('.tweetme-detail')
+const profileBadgeElement = document.querySelectorAll('.tweetme-profileBadge')
+
 
 // add children or props to TweetForm component
 // ReactDOM.render(e(App, rId.dataset), rId);
@@ -25,6 +28,11 @@ if (feedId) {
 
 TweetDetailElement.forEach(container => {
     ReactDOM.render(e(TweetDetailComponent, container.dataset), container);
+    console.log(container)
+})
+
+profileBadgeElement.forEach(container => {
+    ReactDOM.render(e(ProfileBadgeComponet, container.dataset), container);
     console.log(container)
 })
 
