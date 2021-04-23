@@ -41,7 +41,10 @@ export const BackendLookup = (method, endpoint, callback, data) => {
         if (xml.status === 403 && xml.response) {
             var detail = xml.response.detail
             if (detail === "Authentication credentials were not provided.") {
-                window.location.href = '/login?showLoginRequired=true'
+                // return index of a string in an array: -1 = not exist
+                if (window.location.href.indexOf("login") === -1) {
+                    window.location.href = '/login?showLoginRequired=true'
+                }
             }
         }
         callback(xml.response, xml.status)

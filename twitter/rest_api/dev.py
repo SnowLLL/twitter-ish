@@ -8,7 +8,7 @@ User = get_user_model()
 class DevAuthentication (authentication.BasicAuthentication):
     # donot forget to remove SessionAuth & isAuth if you do not to be protected views
     def authenticate(self, request):
-        users = User.objects.filter(id=1)
+        users = User.objects.filter(id=2)
         user = users.order_by("?").first()
         print(user)
         # ? means random

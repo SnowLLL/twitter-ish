@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { apiTweetList } from './lookup'
+import { apiTweetFeed } from './lookup'
 import { Tweet } from './detail'
 
+
 // Tweet sections
-export const TweetsList = (props) => {
+export const TweetsFeedList = (props) => {
     const [tweetsInit, setTweetsInit] = useState([])
     const [tweets, setTweets] = useState([])
     const [nextUrl, setNextUrl] = useState(null)
@@ -25,7 +26,7 @@ export const TweetsList = (props) => {
                     setTweetsDidset(true)
                 }
             }
-            apiTweetList(props.username, handleTweetListLookup)
+            apiTweetFeed(handleTweetListLookup)
         }
     }, [tweetsInit, tweetsDidset, setTweetsDidset, props.username])
 
@@ -51,7 +52,7 @@ export const TweetsList = (props) => {
                     setTweets(newTweetsList)
                 }
             }
-            apiTweetList(props.username, handleBackendNextPageButton, nextUrl)
+            apiTweetFeed(handleBackendNextPageButton, nextUrl)
         }
     }
     return <React.Fragment>

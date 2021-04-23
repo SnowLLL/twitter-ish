@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<!-- <h2 class="text-center my-4">Welcome to Twitter-ish </h2> -->
+
+{% if request.user.is_authenticated %}
+<div id="tweetme-feed"></div>
+{% else %}
+<div id="tweetme">Loading</div>
+{% endif %}
+
+
+<!--  rendered from react app -->
+{% endblock content %}

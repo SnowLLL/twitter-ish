@@ -14,11 +14,8 @@ from django.conf import settings
 
 def home_view(request, *args, **kwargs):
     # print(args,kwargs) to see what they are
-    username = None
-    if request.user.is_authenticated:
-        username = request.user.username
     # return HttpResponse("<h1>Tweet me homepage</h1>")
-    return render(request, 'pages/home.html', context={"username": username})
+    return render(request, 'pages/feed.html')
 
 
 def tweet_list_view_react(request, *args, **kwargs):
