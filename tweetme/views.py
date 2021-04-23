@@ -4,6 +4,7 @@ from .models import Tweet
 from .forms import TweetForm
 import random
 from django.utils.http import is_safe_url
+from rest_framework.permissions import IsAuthenticated
 
 # for use REST FRAMEWORK
 from django.conf import settings
@@ -13,9 +14,9 @@ from django.conf import settings
 
 
 def home_view(request, *args, **kwargs):
-    # print(args,kwargs) to see what they are
-    # return HttpResponse("<h1>Tweet me homepage</h1>")
-    return render(request, 'pages/feed.html')
+    if request.user.is_authenticated:
+        return render(request, 'pages/feed.html')
+    return render(request, 'pages/home.html')
 
 
 def tweet_list_view_react(request, *args, **kwargs):

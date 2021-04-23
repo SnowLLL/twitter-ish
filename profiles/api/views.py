@@ -27,7 +27,8 @@ def profile_detail_api_view(request, username, *args, **kwargs):
         return Response({"detail": "User is not found"}, status=404)
     # the first one of objects
     profile_obj = qs.first()
-    data = PublicProfileSerializer(instance=profile_obj)
+    data = PublicProfileSerializer(
+        instance=profile_obj, context={'request': request})
     return Response(data.data, status=200)
 
 

@@ -44,6 +44,7 @@ export const BackendLookup = (method, endpoint, callback, data) => {
                 // return index of a string in an array: -1 = not exist
                 if (window.location.href.indexOf("login") === -1) {
                     window.location.href = '/login?showLoginRequired=true'
+                    console.log(detail)
                 }
             }
         }
