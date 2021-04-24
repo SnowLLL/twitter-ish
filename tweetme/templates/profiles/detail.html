@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<div class="tweetme-profileBadge" data-username='{{username}}'></div>
-<div id="tweetme" data-username='{{username}}' data-can-tweet='false'></div>
+<div class='row'>
+    <div class="tweetme-profileBadge col-3 mt-5" data-username='{{username}}'></div>
+    <div class='col-7' id="tweetme" data-username='{{username}}' data-can-tweet='false'></div>
+</div>
 <!--  rendered from react app -->
 
 {% endblock content %}

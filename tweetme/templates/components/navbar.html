@@ -13,10 +13,11 @@
                 </li>
                 {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <!-- START WITH / or it will add (href you clicked before).../profile/edit-->
+                    <a class="nav-link" href="/profile/edit">Edit</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="profile/edit">Edit</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
 
                 {% else %}
