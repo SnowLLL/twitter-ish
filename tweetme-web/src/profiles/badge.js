@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { apiProfileDetail, apiProfileFollowToggle } from './lookup'
 import { UserDisplay, UserPicture } from './components'
+import { DisplayCount } from './utils'
+
 
 export const ProfileBadge = (props) => {
     // user means user's profile 
@@ -17,6 +19,10 @@ export const ProfileBadge = (props) => {
         ? <div>
             <UserPicture user={user} hiddeLink />
             <p> <UserDisplay user={user} includeFullName hiddeLink /></p>
+            <p> <DisplayCount>{user.follower_count}</DisplayCount> {user.follower_count === 1 ? 'follower' : 'followers'} </p>
+            <p> <DisplayCount>{user.following_count}</DisplayCount> following</p>
+            <p>{user.location}</p>
+            <p>{user.bio}</p>
             <button className="btn btn-primary" onClick={handleFollowToggle}>{currentV}</button>
         </div>
         : null
