@@ -154,9 +154,9 @@ if DEBUG:
         'rest_framework.renderers.BrowsableAPIRenderer'
     ]
     # FOR REACT TEST USE WHEN USER IS NOT AUTHENTICATED
-    DEFAULT_AUTHENTICATION_CLASSES += [
-        'twitter.rest_api.dev.DevAuthentication',
-    ]
+    # DEFAULT_AUTHENTICATION_CLASSES += [
+    #     'twitter.rest_api.dev.DevAuthentication',
+    # ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
