@@ -13,21 +13,17 @@ export const UserLink = (props) => {
 
 // 
 export const UserDisplay = (props) => {
-    const { user, includeFullName } = props
+    const { user, includeFullName, hiddeLink } = props
     // if includeFullName ==== true namedisplay = ?....
     const nameDisplay = includeFullName === true ? `${user.first_name} ${user.last_name} ` : null
     return <React.Fragment>
         {nameDisplay}
-        <UserLink username={user.username}>@{user.username}</UserLink>
+        {hiddeLink === true ? `@${user.username}` : <UserLink username={user.username}>@{user.username}</UserLink>}
     </React.Fragment>
 }
 
 export const UserPicture = (props) => {
-    const { user } = props
-    return <UserLink username={user.username}>
-        < span className="px-3 py-2 rounded-circle bg-dark text-white" >
-            {/* display the first letter of username */}
-            {user.username[0]}
-        </span >
-    </UserLink>
+    const { user, hiddeLink } = props
+    const userPicSpan = < span className="px-3 py-2 rounded-circle bg-dark text-white" >{user.username[0]}</span >
+    return hiddeLink === true ? userPicSpan : <UserLink username={user.username}>{userPicSpan}</UserLink>
 }
