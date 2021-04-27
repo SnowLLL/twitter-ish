@@ -2,16 +2,18 @@
 
 {% block content %}
 
-<div class="col-10 col-md-4 mx-auto mt-5">
-    <h1>{{ title }}</h1>
+<div class="card shadow mt-5">
+    <div class="card-body  mx-auto">
+        <h1 class="card-title text-center">{{ title }}</h1>
 
-    <!-- be carefull {} -->
-    {% if description %}
-    <p>{{description}}</p>
-    {% endif %}
+        <!-- be carefull {} -->
+        {% if description %}
+        <p calss="card-text">{{description}}</p>
+        {% endif %}
 
-    <!-- do not leave white-space; form = form will not wokk... -->
-    {% include "components/form.html" with form=form btn_label=btn_label %}
+        <!-- do not leave white-space; form = form will not wokk... -->
+        {% include "components/form.html" with form=form btn_label=btn_label %}
+    </div>
 </div>
 
 {% endblock content %}

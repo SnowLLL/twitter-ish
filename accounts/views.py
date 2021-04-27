@@ -34,8 +34,8 @@ def register_view(request, *args, **kwargs):
         return redirect('/')
     context = {
         'form': form,
-        'btn_label': 'Register',
-        'title': 'Register'
+        'btn_label': 'Sign up',
+        'title': 'Please sign up'
     }
     return render(request, 'accounts/auth.html', context)
 

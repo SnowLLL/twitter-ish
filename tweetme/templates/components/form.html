@@ -1,8 +1,9 @@
-<form method="POST"> {% csrf_token %}
+<form method="POST" class="mt-5"> {% csrf_token %}
     <!-- wrap text as para -->
     {{ form.as_p }}
-    <button class="btn btn-secondary" type="submit">
+    <button class="btn btn-primary mx-auto border-rounded container" type="submit">
         {% if btn_label %} {{btn_label}}
         {% else %} Tweet
-        {% endif%}</button>
+        {% endif%}
+    </button>
 </form>
