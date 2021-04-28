@@ -4,20 +4,19 @@
 {% block content %}
 <!-- <h2 class="text-center my-4">Welcome to Twitter-ish </h2> -->
 
-<div class="row">
-    <div class="col-3">
-        <a><i class="fas fa-hashtag"></i></a>
+<div class="row mb-5 mx-auto">
+    <div class="col-3  my-5 d-flex justify-content-center">
+        {% include '../components/sub-nav.html' %}
     </div>
-    <div class="col-6">
+    <div class="col-6 mb-5">
         {% if request.user.is_authenticated and not request.user.is_anonymous %}
         <div id="tweetme-feed"></div>
         {% else %}<div id="tweetme">Loading</div>
         {% endif %}
     </div>
-    <div class="col-3">
-        <div class="col-3">
-            <a><i class="fas fa-hashtag"></i></a>
-        </div>
+    <!--  rendered from react app -->
+    <div class="col-3  my-5">
+        {% include '../components/signup.html' %}
     </div>
 </div>
 

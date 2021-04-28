@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+{% if not request.user.is_authenticated and request.user.is_anonymous %}
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h2>New to Twitter?</h2>
+        </div>
+        <div class="card-text">
+            <p>Sign up now to get your own personalized timeline!</p>
+        </div>
+        <a href="/register/" class="btn btn-primary d-block">Sign up</a>
+    </div>
+</div>
+{% endif %}
+
+
+<!--  rendered from react app -->
+{% endblock content %}

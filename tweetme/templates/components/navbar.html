@@ -1,7 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-bottom"
-    style="background-color:#627E8B; height:3rem;font-weight: 500;">
+    style="background-color:#0d6efd; height:3rem;font-weight: 500;">
     <div class="container-fluid">
-        <a href="/"><i class="fab fa-twitter fa-2x d-block mx-auto text-light me-2"></i></a>
         <a class="navbar-brand" href="/">Twitter-ish</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,24 +15,16 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="/">Home</a>
-                </li>
+                </li> -->
                 {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                    <!-- START WITH / or it will add (href you clicked before).../profile/edit-->
-                    <a class="nav-link" href="/profile/edit">Edit</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Logout</a>
                 </li>
-
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="/login">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Signup</a>
                 </li>
                 {% endif %}
 

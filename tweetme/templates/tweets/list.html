@@ -2,7 +2,16 @@
 
 {% block content %}
 
-<div id="tweetme"></div>
-<!--  rendered from react app -->
-
+<div class="row mb-5 mx-auto">
+    <div class="col-3  my-5 d-flex justify-content-center">
+        {% include '../components/sub-nav.html' %}
+    </div>
+    <div class="col-6 mb-5">
+        <div id="tweetme"></div>
+    </div>
+    <!--  rendered from react app -->
+    <div class="col-3  my-5">
+        {% include '../components/signup.html' %}
+    </div>
+</div>
 {% endblock content %}
