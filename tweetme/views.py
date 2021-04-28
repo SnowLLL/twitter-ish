@@ -16,7 +16,7 @@ from django.conf import settings
 def home_view(request, *args, **kwargs):
     if request.user.is_authenticated:
         return render(request, 'pages/feed.html')
-    return render(request, 'pages/home.html')
+    return render(request, 'pages/feed.html')
 
 
 def tweet_list_view_react(request, *args, **kwargs):
