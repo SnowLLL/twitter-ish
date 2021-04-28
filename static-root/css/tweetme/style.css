@@ -1,0 +1,15 @@
+@media only screen and (max-width: 1024px) {
+    .sub-nav-description{
+        display: none;
+    }
+
+    html,body{
+        background-color: red;
+    }
+    i{
+        color: red;
+    }
+    a{
+        font-size: larger;
+    }
+  }

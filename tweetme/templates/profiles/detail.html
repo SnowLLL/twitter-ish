@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class='row mx-auto'>
-    <div class="tweetme-profileBadge col-3 mt-5" data-username='{{username}}'></div>
-    <div class='col-7 mb-5 pb-5' id="tweetme" data-username='{{username}}' data-can-tweet='false'></div>
+    <div class="tweetme-profileBadge col-3 col-md-2 col-sm-1 mt-5" data-username='{{username}}'></div>
+    <div class='col-6 col-md-7 col-sm-8 mb-5 tweets' id="tweetme" data-username='{{username}}' data-can-tweet='false'>
+    </div>
 </div>
 <!--  rendered from react app -->
 

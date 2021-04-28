@@ -2,15 +2,15 @@
 
 {% block content %}
 
-<div class="row mb-5 mx-auto">
-    <div class="col-3  my-5">
+<div class="row mb-5">
+    <div class="col-3 col-md-2 col-sm-1 mt-5 text-start sub-nav">
         {% include '../components/sub-nav.html' %}
     </div>
-    <div class="col-6 mb-5">
+    <div class="col-6 col-md-7 col-sm-9 mb-5 tweets">
         <div id="tweetme"></div>
     </div>
     <!--  rendered from react app -->
-    <div class="col-3  my-5">
+    <div class="col-3 col-md-3 mt-5 signup">
         {% include '../components/signup.html' %}
     </div>
 </div>

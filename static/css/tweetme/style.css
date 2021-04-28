@@ -1,0 +1,36 @@
+.tweets{
+    min-width: 350px;
+    margin:0 auto;
+}
+
+.tweetme-profileBadge,.signup{
+    min-width: 300px;
+    margin:0 auto;
+}
+
+@media only screen and (max-width: 1290px) {
+    .sub-nav-description{
+        display: none;
+    }
+  }
+
+  @media only screen and (max-width: 882px) {
+    .sub-nav-description{
+        display: none;
+    }
+
+    .signup{
+        display: none;
+    }
+  }
+
+  @media only screen and (max-width: 650px) {
+
+    .signup{
+        display: none;
+    }
+
+    .sub-nav{
+        display: none;
+    }
+  }
