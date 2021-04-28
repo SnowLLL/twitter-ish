@@ -36,7 +36,7 @@ urlpatterns = [
     path('login/', login_view),
     path('register/', register_view),
     path('logout/', logout_view),
-    path('<int:tweet_id>',  tweet_detail_view_react),
+    path('<int:tweet_id>/',  tweet_detail_view_react),
     path('global/<int:tweet_id>',  tweet_detail_view_react),
     # username/tweet_id from views(request,props)
     # include > tweetme folder > api folder > urls,py

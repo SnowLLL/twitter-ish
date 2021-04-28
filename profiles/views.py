@@ -9,6 +9,7 @@ def profile_detail_view(request, username, *args, **kwargs):
     qs = Profile.objects.filter(user__username=username)
     if not qs.exists():
         raise Http404()
+
     # the first one of objects
     profile_obj = qs.first()
     is_following = False
@@ -52,3 +53,7 @@ def profile_update_view(request, *args, **kwargs):
         'title': 'Update Profile'
     }
     return render(request, 'profiles/updateprofiles.html', context)
+
+
+def profile_tweet_detail_view_react(request, username, tweet_id, *args, **kwargs):
+    return render(request, "tweets/detail.html", context={"tweet_id": tweet_id})
