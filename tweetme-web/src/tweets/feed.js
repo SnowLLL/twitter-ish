@@ -63,6 +63,6 @@ export const TweetsFeedList = (props) => {
                 className='my-5 py-5 border bg-white text-dark'
                 key={`${index}-{ item.id }`} /> // `` NOT ''
         })}
-        {nextUrl != null && <button className="btn btn-outline-primary" onClick={handleNextPage}>Next Page</button>}
+        {nextUrl != null && <button className="btn btn-outline-primary d-block mx-auto" onClick={handleNextPage}>Next Page</button>}
     </React.Fragment>
 }

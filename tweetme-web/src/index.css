@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #EAEDF0;
 }
 
 code {
@@ -14,4 +15,8 @@ code {
 
 .pointer {
   cursor: pointer !important;
+}
+
+.button:hover {
+  background-color:#627E8B;
 }

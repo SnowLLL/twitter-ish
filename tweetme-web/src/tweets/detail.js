@@ -16,8 +16,8 @@ export function Tweet(props) {
     const { tweet, didRetweet, hiddenActions, isRetweet, retweeter } = props
     const [actionTweet, setActionTweet] = useState(props.tweet ? props.tweet : null)
     // when parent here, change style -> add border
-    let className = props.className ? props.className : 'col-10 col-md-6'
-    className = isRetweet === true ? `${className} border rounded p-2` : className
+    let className = props.className ? props.className : 'col-10 mx-auto'
+    className = isRetweet === true ? `${className} border rounded` : className
 
     const path = window.location.pathname
     var match = path.match(/(?<tweetid>\d+)/) // /(?P<id>\d+)/ in python
@@ -45,22 +45,22 @@ export function Tweet(props) {
     }
     return (
         <div className={className}>
-            {isRetweet === true && <div className='mb-3'> <span className='small text-muted'>Retweet via <UserDisplay user={retweeter} /></span></div>}
-            <div className="d-flex">
-                <div className='col-1'>
-                    <UserPicture user={tweet.user} />
-                </div>
-                <div className="col-11">
-                    {/* All content here */}
-                    <div>
-                        <p>
-                            <UserDisplay includeFullName user={tweet.user} />
-                        </p>
+            {isRetweet === true && <div className='mb-3'> <span className='small text-muted p-2'>Retweet via <UserDisplay user={retweeter} /></span></div>}
+            <div className="container">
 
-                        < p >{tweet.content}</p >
-                        < ParentTweet tweet={tweet} retweeter={tweet.user} />
+                <div className="row text-center" style={{ height: '3rem' }}>
+                    <div className="col-2 align-middle my-auto">
+                        <span className="d-grid"><UserPicture user={tweet.user} /></span>
                     </div>
+                    <div className="col-2 align-middle">
+                        <UserDisplay includeFullName user={tweet.user} />
+                    </div>
+                </div>
 
+                {/* All content here */}
+                <div className="card-body mt-3">
+                    < p className="card-text">{tweet.content}</p >
+                    <div className="mx-auto">< ParentTweet tweet={tweet} retweeter={tweet.user} /></div>
                     <div className='btn btn-group px-0'>
                         {(actionTweet && hiddenActions !== true) &&
                             <React.Fragment>
