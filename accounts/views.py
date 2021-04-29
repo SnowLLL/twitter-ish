@@ -11,9 +11,10 @@ def login_view(request, *args, **kwargs):
     form = AuthenticationForm(request, data=request.POST or None)
 
     if form.is_valid():  # donot forget (); return true or false
-        user_ = form.get_user()
-        login(request, user_)
-        return redirect('/')  # go back to homepage after login
+        user = form.get_user()
+        login(request, user)
+        # go back to homepage after login
+        return redirect('/')
     context = {
         'form': form,
         'btn_label': 'Login',
@@ -30,7 +31,7 @@ def register_view(request, *args, **kwargs):
         user = form.save(commit=True)
         user.set_password(form.cleaned_data.get("password1"))
         # send an email to verify
-        login(request, user)
+        login(request, user)  # Not working
         return redirect('/')
     context = {
         'form': form,

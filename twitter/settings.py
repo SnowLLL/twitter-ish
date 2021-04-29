@@ -26,8 +26,8 @@ SECRET_KEY = 'django-insecure-%n0^zxze%+h@j&00g5752l0b5rp!%j3m07!fk9z1g#l91si1xg
 DEBUG = False
 
 # important "."
-# ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'twitter--ish2.herokuapp.com']
+# ALLOWED_HOSTS = ['*'] '127.0.0.1'
+ALLOWED_HOSTS = ['localhost', 'twitter--ish2.herokuapp.com']
 LOGIN_URL = '/login'
 MAX_LENGTH = 200
 
@@ -72,9 +72,9 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -91,6 +91,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+
+        # fix default 127.0.0.01
+        'HOST': 'localhost'
     }
 }
 
@@ -150,6 +153,7 @@ DEFAULT_AUTHENTICATION_CLASSES = [
     'rest_framework.authentication.SessionAuthentication',
     'rest_framework.authentication.BasicAuthentication',
 ]
+
 if DEBUG:
     DEFAULT_RENDERER_CLASSES += [
         'rest_framework.renderers.BrowsableAPIRenderer'
