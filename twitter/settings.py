@@ -27,8 +27,7 @@ DEBUG = False
 
 # important "."
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', '.netlify.app',
-                 'localhost', 'twitter--ish.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'twitter--ish.herokuapp.com']
 LOGIN_URL = '/login'
 MAX_LENGTH = 200
 
