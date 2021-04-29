@@ -25,7 +25,7 @@ export const BackendLookup = (method, endpoint, callback, data) => {
     }
     const xml = new XMLHttpRequest()
     // const url = `http://localhost:8000/api/${endpoint}`
-    const url = `http://127.0.0.01:8000/api/${endpoint}`
+    const url = `http://my-twitter-ish.herokuapp.com:8000/api/${endpoint}`
     xml.responseType = 'json'
     xml.open(method, url)
     xml.setRequestHeader('Content-Type', 'application/json')
