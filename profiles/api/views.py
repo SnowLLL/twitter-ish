@@ -21,6 +21,7 @@ User = get_user_model()
 
 #     return Response({}, status=400)
 @ api_view(['GET', 'POST'])
+@ permission_classes([IsAuthenticated])
 def profile_detail_api_view(request, username, *args, **kwargs):
     qs = Profile.objects.filter(user__username=username)
     if not qs.exists():
