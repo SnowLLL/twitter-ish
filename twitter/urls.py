@@ -29,6 +29,9 @@ from accounts.views import (
     logout_view
 )
 
+from django.conf.urls import url
+from django.views.static import serve
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  home_view),
@@ -53,6 +56,11 @@ urlpatterns = [
     # path('api/tweets/<int:tweet_id>/delete', delete_view),
     # path('react/', TemplateView.as_view(template_name='react.html')),
     # # since react.html is not dynamic, it has to be separate in different django views
+
+    url(r'^media/(?P<path>.*)$', serve,
+        {'document_root': settings.MEDIA_ROOT}),
+    url(r'^static/(?P<path>.*)$', serve,
+        {'document_root': settings.STATIC_ROOT}),
 ]
 
 if settings.DEBUG:
