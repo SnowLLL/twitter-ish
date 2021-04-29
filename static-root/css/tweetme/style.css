@@ -1,15 +1,36 @@
-@media only screen and (max-width: 1024px) {
+.tweets{
+    min-width: 350px;
+    margin:0 auto;
+}
+
+.tweetme-profileBadge,.signup{
+    min-width: 300px;
+    margin:0 auto;
+}
+
+@media only screen and (max-width: 1290px) {
+    .sub-nav-description{
+        display: none;
+    }
+  }
+
+  @media only screen and (max-width: 882px) {
     .sub-nav-description{
         display: none;
     }
 
-    html,body{
-        background-color: red;
+    .signup{
+        display: none;
     }
-    i{
-        color: red;
+  }
+
+  @media only screen and (max-width: 650px) {
+
+    .signup{
+        display: none;
     }
-    a{
-        font-size: larger;
+
+    .sub-nav{
+        display: none;
     }
   }
