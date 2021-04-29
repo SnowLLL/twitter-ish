@@ -27,7 +27,7 @@ DEBUG = False
 
 # important "."
 # ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'twitter--ish2.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'my-twitter-ish.herokuapp.com']
 LOGIN_URL = '/login'
 MAX_LENGTH = 200
 
