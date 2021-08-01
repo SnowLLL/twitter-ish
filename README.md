@@ -1,4 +1,4 @@
-# [Twitter-ish](https://my-twitter-ish.herokuapp.com/):couple:
+# [Twitter-ish](https://my-twitter-ish.herokuapp.com/) :link:
 ```diff
 + TECH STACK
 ```
