@@ -1,5 +1,10 @@
-# [Twitter-ish](https://my-twitter-ish.herokuapp.com/) 
-:link:
+# [Twitter-ish](https://my-twitter-ish.herokuapp.com/)   
+``` diff
+- Note: This is based on a video tutorial to learn. 
+```
+### [Create a Twitter-like App with Python Django JavaScript and React. Full TUTORIAL](https://www.youtube.com/watch?v=f1R_bykXHGE)
+
+
 ```diff
 + TECH STACK
 ```
